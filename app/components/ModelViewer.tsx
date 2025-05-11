@@ -64,24 +64,24 @@ export function BrainModel({
 			<primitive object={gltf.scene} />
 
 			{/* Hotspot: Cerebellum */}
-			<Html position={[-0.5, 1, 0]}>
+			{/* <Html position={[-0.5, 1, 0]}>
 				<div
 					className="w-6 h-6 rounded-full bg-green-500 cursor-pointer flex items-center justify-center text-white text-xs font-bold border-2 border-white"
 					onClick={() => onSelectPart("cerebellum")}
 				>
 					Cerebellum
 				</div>
-			</Html>
+			</Html> */}
 
 			{/* Hotspot: Cross Section X */}
-			<Html position={[0.4, 1.2, 0]}>
+			{/* <Html position={[0.4, 1.2, 0]}>
 				<div
 					className="w-3 h-3 rounded-full bg-red-500 cursor-pointer flex items-center justify-center text-white text-xs font-bold border-2 border-white"
 					onClick={() => onSelectPart("parietal")}
 				>
 					X
 				</div>
-			</Html>
+			</Html> */}
 		</group>
 	);
 }
