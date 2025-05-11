@@ -44,18 +44,9 @@ export default function ModelARClient({ id }: { id: string }) {
 	const [isARMode, setIsARMode] = useState(false);
 
 	const handlePartSelect = (partId: string) => setSelectedPart(partId);
-	const toggleARMode = () => setIsARMode((v) => !v);
-
-	// Ruta a tu archivo .glb en public/models
-	// Asegúrate de que exista public/models/brain.glb si id==="brain"
-	const src = `/models/${id}.fbx`;
-
-	const getFbxPath = (id: string) => `/models/${id}.fbx`;
 
 	return (
 		<main className="container mx-auto px-4 py-6">
-			<ARCube modelId="" />
-
 			{/* Header */}
 			<div className="flex items-center mb-6">
 				<Link
@@ -100,7 +91,7 @@ export default function ModelARClient({ id }: { id: string }) {
 							// 		Tu navegador no soporta AR.
 							// 	</div>
 							// </model-viewer>
-							<div>hola</div>
+							<div></div>
 
 							// <ARViewer modelId={id} getModelPath={getFbxPath} />
 						)}
@@ -122,13 +113,8 @@ export default function ModelARClient({ id }: { id: string }) {
 								<Maximize size={20} />
 							</button>
 						</div>
-						<button
-							onClick={toggleARMode}
-							className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 flex items-center"
-						>
-							<Camera className="mr-2" size={16} />
-							{isARMode ? "Salir de AR" : "Ver en AR"}
-						</button>
+
+						<ARCube modelId={id} />
 					</div>
 				</div>
 
