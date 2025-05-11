@@ -10,6 +10,7 @@ interface ModelViewerProps {
 	onSelectPart: (partId: string) => void;
 }
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 
 
@@ -47,7 +48,7 @@ export function BrainModel({
 
 	console.log("MODEL IDDD", modelId);
 
-	const scene = useLoader(FBXLoader, `/models/${modelId}.fbx`);
+	const scene = useLoader(GLTFLoader, `/models/${modelId}.glb`);
 
 	// scene.traverse((node) => {
 	// 	if (node.isMesh) {
@@ -78,7 +79,7 @@ export function BrainModel({
 	// });
 
 	useEffect(() => {
-		scene.traverse((node: any) => {
+		scene.scene.traverse((node: any) => {
 			if (node.isMesh) {
 				node.geometry.computeVertexNormals();
 				node.material = new THREE.MeshPhysicalMaterial({

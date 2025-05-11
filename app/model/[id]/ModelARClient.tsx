@@ -16,6 +16,7 @@ import ModelInfo from "@/app/components/ModelInfo";
 
 import BrainParts from "../brain.model";
 import ARViewer from "@/app/components/ARViewer";
+import ARCube from "@/app/components/ARCube";
 
 /**
  * Busca y devuelve el modelo cuyo id coincida.
@@ -53,6 +54,8 @@ export default function ModelARClient({ id }: { id: string }) {
 
 	return (
 		<main className="container mx-auto px-4 py-6">
+			<ARCube modelId="" />
+
 			{/* Header */}
 			<div className="flex items-center mb-6">
 				<Link
@@ -97,8 +100,9 @@ export default function ModelARClient({ id }: { id: string }) {
 							// 		Tu navegador no soporta AR.
 							// 	</div>
 							// </model-viewer>
+							<div>hola</div>
 
-							<ARViewer modelId={id} getModelPath={getFbxPath} />
+							// <ARViewer modelId={id} getModelPath={getFbxPath} />
 						)}
 					</div>
 
@@ -148,7 +152,7 @@ export default function ModelARClient({ id }: { id: string }) {
 						<ul className="list-disc">
 							{model.functions.map((func) => {
 								return (
-									<li className="text-gray-600">{func}</li>
+									<li key={func} className="text-gray-600">{func}</li>
 								);
 							})}
 						</ul>
