@@ -5,7 +5,6 @@ import * as THREE from "three";
 import { ARButton } from "three/examples/jsm/webxr/ARButton.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
-import { Camera } from "lucide-react";
 
 export default function ARCube({ modelId }: { modelId: string }) {
 	const containerRef = useRef<HTMLDivElement>(null);
@@ -37,10 +36,20 @@ export default function ARCube({ modelId }: { modelId: string }) {
 		// ✅ Crear y personalizar el botón AR
 		const arButton = ARButton.createButton(renderer, {
 			requiredFeatures: ["hit-test"],
+			
 		});
+		arButton.style.cssText = "";
+		arButton.className = "";
+
 		arButton.className =
-			"px-6 py-2 bg-blue-600 rounded-lg shadow-lg hover:bg-blue-700 transition";
+			"px-4 text-sm bg-blue-600 rounded-lg shadow-lg hover:bg-blue-700 transition h-12";
 		arButton.textContent = "Ver en AR";
+		arButton.innerHTML = "Vern en AR";
+		arButton.innerText = "Ver en AR";
+
+		arButton.style.setProperty("background-color", "#2563eb", "important");
+		arButton.style.setProperty("color", "#fff", "important");
+		arButton.style.setProperty("height", "2.7rem", "important");
 
 		// Lo insertamos donde tú controlas
 		if (arButtonRef.current) {
@@ -65,7 +74,7 @@ export default function ARCube({ modelId }: { modelId: string }) {
 		);
 		loader.setDRACOLoader(dracoLoader);
 
-		loader.load(`/models/${modelId}.glb`, (gltf) => {
+		loader.load(`/models/${modelId}_draco.glb`, (gltf) => {
 			const model = gltf.scene;
 
 			modelRef.current = model;
@@ -117,14 +126,38 @@ export default function ARCube({ modelId }: { modelId: string }) {
 
 		// 📱 Rotación touch
 		let lastX = 0;
+		let initialPinchDistance = 0;
+		let initialScale = 1;
+
 		const onTouchStart = (e: TouchEvent) => {
-			lastX = e.touches[0].clientX;
+			if (e.touches.length === 2 && modelRef.current) {
+				// arrancamos un pinch
+				const dx = e.touches[0].clientX - e.touches[1].clientX;
+				const dy = e.touches[0].clientY - e.touches[1].clientY;
+				initialPinchDistance = Math.hypot(dx, dy);
+				// guardamos la escala actual
+				initialScale = modelRef.current.scale.x;
+			} else if (e.touches.length === 1) {
+				// arrancamos rotación
+				lastX = e.touches[0].clientX;
+			}
 		};
 		const onTouchMove = (e: TouchEvent) => {
 			if (!modelRef.current) return;
-			const deltaX = e.touches[0].clientX - lastX;
-			modelRef.current.rotation.y += deltaX * 0.005;
-			lastX = e.touches[0].clientX;
+
+			if (e.touches.length === 2) {
+				// pinch-to-zoom
+				const dx = e.touches[0].clientX - e.touches[1].clientX;
+				const dy = e.touches[0].clientY - e.touches[1].clientY;
+				const distance = Math.hypot(dx, dy);
+				const scaleFactor = distance / initialPinchDistance;
+				modelRef.current.scale.setScalar(initialScale * scaleFactor);
+			} else if (e.touches.length === 1) {
+				// rotación horizontal
+				const deltaX = e.touches[0].clientX - lastX;
+				modelRef.current.rotation.y += deltaX * 0.01;
+				lastX = e.touches[0].clientX;
+			}
 		};
 
 		window.addEventListener("touchstart", onTouchStart);
@@ -135,6 +168,8 @@ export default function ARCube({ modelId }: { modelId: string }) {
 		});
 
 		return () => {
+			window.removeEventListener("touchstart", onTouchStart);
+			window.removeEventListener("touchmove", onTouchMove);
 			renderer.dispose();
 			if (containerRef.current?.firstChild) {
 				containerRef.current.removeChild(renderer.domElement);
@@ -144,10 +179,10 @@ export default function ARCube({ modelId }: { modelId: string }) {
 
 	return (
 		<button className="px-4 relative py-2 w-1/3 flex items-end justify-end">
-			<Camera className="mr-2" size={16} />
+			{/* <Camera className="mr-2" size={16} /> */}
 			<div
 				ref={arButtonRef}
-				className="absolute bottom-0 left-1/2 translate-y-5"
+				className="absolute bottom-0 translate-y-3"
 			/>
 		</button>
 	);

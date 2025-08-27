@@ -1,21 +1,14 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import "@google/model-viewer";
 import {
 	ArrowLeft,
-	Maximize,
-	RotateCw,
-	ZoomIn,
-	ZoomOut,
-	Camera,
 } from "lucide-react";
 import ModelViewer from "@/app/components/ModelViewer";
-import ModelInfo from "@/app/components/ModelInfo";
 
 import BrainParts from "../brain.model";
-import ARViewer from "@/app/components/ARViewer";
 import ARCube from "@/app/components/ARCube";
 
 /**
@@ -100,7 +93,7 @@ export default function ModelARClient({ id }: { id: string }) {
 					{/* Controles */}
 					<div className="p-4 border-t flex flex-wrap justify-between items-center">
 						<div className="flex space-x-2 mb-2 sm:mb-0">
-							<button className="p-2 rounded-full hover:bg-gray-100">
+							{/* <button className="p-2 rounded-full hover:bg-gray-100">
 								<RotateCw size={20} />
 							</button>
 							<button className="p-2 rounded-full hover:bg-gray-100">
@@ -111,7 +104,7 @@ export default function ModelARClient({ id }: { id: string }) {
 							</button>
 							<button className="p-2 rounded-full hover:bg-gray-100">
 								<Maximize size={20} />
-							</button>
+							</button> */}
 						</div>
 
 						<ARCube modelId={id} />
@@ -135,7 +128,7 @@ export default function ModelARClient({ id }: { id: string }) {
 							Funciones
 						</h2>
 						<hr />
-						<ul className="list-disc">
+						<ul className="list-disc px-5">
 							{model.functions.map((func) => {
 								return (
 									<li key={func} className="text-gray-600">{func}</li>

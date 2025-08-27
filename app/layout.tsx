@@ -29,9 +29,9 @@ export default function RootLayout({
               <Link href="/" className="text-gray-600 hover:text-indigo-600">
                 Inicio
               </Link>
-              <Link href="/admin/models" className="text-gray-600 hover:text-indigo-600">
+              {/* <Link href="/admin/models" className="text-gray-600 hover:text-indigo-600">
                 Administración
-              </Link>
+              </Link> */}
               <Link href="#" className="text-gray-600 hover:text-indigo-600">
                 Acerca de
               </Link>
